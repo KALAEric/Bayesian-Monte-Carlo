@@ -1,2 +1,2 @@
 # Bayesian-Monte-Carlo
-Bayeasian learning -machine learning - monte carlo
+Bayesian learning -machine learning - monte carlo method
