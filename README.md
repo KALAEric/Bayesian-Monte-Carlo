@@ -8,7 +8,7 @@ sckit-optimize: `pip install scikit-optimize`, scikit-learn: `pip install scikit
 ## Files description
 - sandbox.iypnb:  notebook where to run functions test and experiments
 
-- mc.py: implemented function bmc, cmc, ois, Bmc
+- mc.py: implemented functions bmc, smc, ois, Bmc
 
 
 
