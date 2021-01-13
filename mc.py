@@ -15,6 +15,13 @@ from sklearn.gaussian_process.kernels import RBF
 
 
 def smc(f,x):
+    """
+    
+    f: the function to integrate
+    x n-d array: thet sample data
+    
+    return estimate and variance
+    """
     T=x.shape[0]
     f_p=(1/T)*np.sum(f(x))
     variance=(1/T)*np.sum(f(x)**2-f_p**2)
@@ -23,6 +30,18 @@ def smc(f,x):
 # I=quad(f1,0,1)(abs(f),0,1)
 
 def ois(f,x,p,alpha):
+    
+    """
+    
+    f: the function to integrate
+    x n-d array: thet sample data
+    p : the data density
+    
+    alpha:  the integrale value of f |f|p
+    
+    return estimate and variance
+    
+    """
     
     T=x.shape[0]
     q= lambda x: abs(f(x)) * p(x)/alpha
@@ -54,7 +73,7 @@ def bmc(X,y,p):
     gpr = GaussianProcessRegressor(kernel=kernel,random_state=0).fit(X, y)
     # get the optimize hyperparameters w (length scale) i.e ( need to apply exponential because the default ouputs is in log_scale) 
     w=np.exp(gpr.kernel_.theta)
-    A=np.diag(w)
+    A=np.diag(w**2)
     # get the distribution mean and covariance
     b, B=p.mean, p.cov
     # compute z for all data points
@@ -66,7 +85,7 @@ def bmc(X,y,p):
     # compute the integral expectation 
     E=z.T@inv(K)@y/n
     # compute the integral variance 
-    V=(w_0*(1/np.sqrt(det(2*inv(A)@B + np.eye(d)))) - z.T@inv(K)@z)/n
+    V=(w_0*(1/np.sqrt(det(2*inv(A)@B + np.eye(d)))) - z.T@inv(K)@z)/n**2
 
     return E,V
 
